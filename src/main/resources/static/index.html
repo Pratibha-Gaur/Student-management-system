@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#123c3a">
+  <meta name="theme-color" content="#142d2b">
   <meta name="description" content="A student registry powered by Spring Boot and MongoDB.">
   <title>Campus Registry — Student Management</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%23123c3a'/%3E%3Cpath d='M7 17l13-7 13 7-13 7zM12 21v7c5 4 11 4 16 0v-7' fill='none' stroke='%23fff' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./theme.css">
   <script src="./app.js" defer></script>
 </head>
 <body>
@@ -27,22 +28,38 @@
     <symbol id="i-alert" viewBox="0 0 24 24"><path d="m12 3 10 18H2L12 3Zm0 6v5m0 3v1"/></symbol>
   </svg>
 
-  <header class="topbar">
-    <a class="brand" href="./" aria-label="Campus Registry home">
-      <span class="brand-mark"><svg class="icon"><use href="#i-cap"/></svg></span>
-      <span class="brand-name">Campus<span>STUDENT REGISTRY</span></span>
-    </a>
-    <div class="topbar-actions">
-      <span class="connection" id="connectionStatus"><span class="status-dot"></span><span id="connectionLabel">Connecting…</span></span>
-      <button class="button primary" id="topAddButton"><svg class="icon"><use href="#i-plus"/></svg><span>Add student</span></button>
-    </div>
-  </header>
+  <div class="app-layout">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="./" aria-label="Campus Registry home">
+        <span class="brand-mark"><svg class="icon"><use href="#i-cap"/></svg></span>
+        <span class="brand-name">campus<span>REGISTRY</span></span>
+      </a>
+      <div class="sidebar-content">
+        <p class="nav-label">WORKSPACE</p>
+        <nav class="side-nav" aria-label="Workspace">
+          <a class="nav-link active" href="#overview" aria-current="page"><svg class="icon"><use href="#i-book"/></svg>Overview</a>
+          <a class="nav-link" href="#directoryTitle"><svg class="icon"><use href="#i-users"/></svg>Students</a>
+          <a class="nav-link" href="#courseTitle"><svg class="icon"><use href="#i-cap"/></svg>Programs</a>
+        </nav>
+        <div class="sidebar-note"><span class="sidebar-note-icon"><svg class="icon"><use href="#i-database"/></svg></span><p>All your academic records,<br>in one thoughtful space.</p></div>
+      </div>
+      <div class="sidebar-foot"><span class="sidebar-foot-mark">C</span><div><strong>Campus Registry</strong><small>Student management</small></div></div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Workspace</span><span class="breadcrumb-divider">/</span><strong>Overview</strong></div>
+        <div class="topbar-actions">
+          <span class="connection" id="connectionStatus"><span class="status-dot"></span><span id="connectionLabel">Connecting…</span></span>
+          <button class="button primary" id="topAddButton"><svg class="icon"><use href="#i-plus"/></svg><span>Add student</span></button>
+        </div>
+      </header>
 
-  <main class="shell">
-    <section class="page-heading">
-      <div><p class="eyebrow">ACADEMIC WORKSPACE</p><h1>Student management</h1><p class="subtitle">Student records, enrollment status, and course insights. All in one place.</p></div>
-      <span class="database-label"><svg class="icon"><use href="#i-database"/></svg>Powered by MongoDB</span>
-    </section>
+      <main class="shell" id="overview">
+        <section class="page-heading">
+          <div class="heading-copy"><p class="eyebrow">THE ACADEMIC DASHBOARD <span class="eyebrow-line"></span> YOUR WORKSPACE</p><h1>Every student.<br><em>One clear picture.</em></h1><p class="subtitle">A better way to keep track of the people, programs, and progress that matter.</p><a class="heading-link" href="#directoryTitle">Explore the directory <span aria-hidden="true">↗</span></a></div>
+          <div class="heading-art" aria-hidden="true"><span class="art-orbit orbit-one"></span><span class="art-orbit orbit-two"></span><span class="art-orbit orbit-three"></span><span class="art-core"><svg class="icon"><use href="#i-cap"/></svg></span><span class="art-caption">KNOW YOUR CAMPUS<br>AT A GLANCE</span></div>
+        </section>
+        <div class="section-intro"><div><p class="eyebrow">01 / AT A GLANCE</p><h2>Registry overview</h2></div><span class="section-intro-aside">Your campus, in numbers</span></div>
 
     <section class="metrics" aria-label="Registry statistics">
       <article class="metric"><div class="metric-top"><span>Total students</span><span class="metric-icon teal"><svg class="icon"><use href="#i-users"/></svg></span></div><strong id="totalStudents">—</strong><p>All student records</p></article>
@@ -51,6 +68,7 @@
       <article class="metric"><div class="metric-top"><span>Courses</span><span class="metric-icon amber"><svg class="icon"><use href="#i-book"/></svg></span></div><strong id="courseCount">—</strong><p>Across the registry</p></article>
     </section>
 
+    <div class="section-intro directory-intro"><div><p class="eyebrow">02 / PEOPLE</p><h2>Student records</h2></div><span class="section-intro-aside">Find the details that matter</span></div>
     <section class="panel directory" aria-labelledby="directoryTitle">
       <div class="panel-heading"><div><div class="title-line"><h2 id="directoryTitle">Student directory</h2><span class="count-badge" id="directoryCount">—</span></div><p>Search, review, and manage individual student records.</p></div><span class="section-kicker">RECORDS</span></div>
       <form class="filters" id="filterForm">
@@ -68,9 +86,12 @@
       <div class="pagination"><p id="pageSummary">Loading records…</p><div class="pagination-controls"><button class="page-button" id="previousPage" aria-label="Previous page" disabled><svg class="icon"><use href="#i-left"/></svg></button><span id="pageLabel">Page 1 of 1</span><button class="page-button" id="nextPage" aria-label="Next page" disabled><svg class="icon"><use href="#i-right"/></svg></button></div></div>
     </section>
 
+    <div class="section-intro programs-intro"><div><p class="eyebrow">03 / PROGRAMS</p><h2>Course distribution</h2></div><span class="section-intro-aside">A snapshot of your programs</span></div>
     <section class="panel course-panel" aria-labelledby="courseTitle"><div class="panel-heading"><div><h2 id="courseTitle">Students by course</h2><p>A live breakdown of your academic programs.</p></div><span class="live-label"><span class="status-dot"></span>Live registry</span></div><div id="courseBars" class="course-bars"><p class="muted">Loading course statistics…</p></div></section>
     <footer class="footer"><span>Campus Registry <span class="footer-dot">·</span> Student Management System</span><span>Spring Boot <span class="footer-dot">/</span> MongoDB <span class="footer-dot">/</span> Maven</span></footer>
-  </main>
+      </main>
+    </div>
+  </div>
 
   <dialog id="studentDialog" aria-labelledby="dialogTitle">
     <form id="studentForm">
